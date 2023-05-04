@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ManagementUserController;
@@ -43,3 +44,5 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('users/password', [UserController::class, 'updatePassword']);
