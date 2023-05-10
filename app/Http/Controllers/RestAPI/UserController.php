@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserListResource;
 use App\Models\User;
 use App\Models\user_listData;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 
 
 class UserController extends Controller
@@ -22,19 +24,27 @@ class UserController extends Controller
 
     public function checkLogin(){
         $userdata = user_listData::find(1);
+        $userdata ->password = "percobban";
+        $userdata->save();
 
         return new UserListResource($userdata);
     }
 
     public function updatePassword(Request $request)
 {
-    $request->validate(['id' => 'required' , 'password_lama' => 'required' , 'password_baru' => 'required']);
-    $ambilPasswordLama = DB::table('user_list_data')->where('id','=', $request->id)->where('password','=',$request->password_lama)->first();
+    $request->validate(['id' => 'required' , 'password_lama' => 'required' , 'password_baru' => 'required' ]);
+    
+    $ambilPasswordLama = DB::table('user_list_data')->where('id','=',$request->id)->first();
+    // $VerifBruh = DB::table('user_list_data')->where('id','=', $request->id)->where('password','=',Hash::check($request->password_lama , $ambilPasswordLama))->first();
 
-    if($ambilPasswordLama){
+//   echo $ambilPasswordLama;
 
+    if(Hash::check($request->password_lama , $ambilPasswordLama->password)){
+        $encryptedPassword = Hash::make($request->password_baru);
+
+        
         DB::table('user_list_data')->where('id','=',$request->id)->update([
-            'password' => $request->password_baru
+            'password' => $encryptedPassword
            
         ]);
         $data = [
@@ -42,6 +52,7 @@ class UserController extends Controller
             'kode' => '200'
         ];
         return json_encode($data);
+
 
     }else{ 
         
@@ -51,5 +62,10 @@ class UserController extends Controller
     ];
     return json_encode($data);}
 }
+public function updateProfil(Request $request, User $user)
+{
+}
+
+
 
 }

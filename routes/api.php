@@ -20,3 +20,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::get('/getPelaporan/{userId}', [LaporanController::class, 'getDataPelaporan']);
 Route::post('users/password', [UserController::class, 'updatePassword']);
+Route::post('users', [UserController::class, 'updateProfil']);
+

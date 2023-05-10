@@ -23,10 +23,25 @@ Route::group(['namespace' => 'App\Http\Controllers\Frontend'], function() {
 
 Route::group(['namespace' => 'App\Http\Controllers\Backend'], function() {
     Route::resource('dashboard', 'DashboardController');
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Backend'], function () {
     Route::resource('laporan', 'LaporanController');
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Backend'], function () {
     Route::resource('laporanmasuk', 'LaporanMasukController');
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Backend'], function () {
     Route::resource('pengaturan', 'PengaturanController');
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Backend'], function () {
     Route::resource('berita', 'BeritaController');
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Backend'], function () {
     Route::resource('edukasi', 'EdukasiController');
 });
 
@@ -45,4 +60,3 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('users/password', [UserController::class, 'updatePassword']);
